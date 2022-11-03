@@ -7,6 +7,8 @@ const app = express();
 
 const serviceAccount = require("./service.json");
 
+const isDev = process.env.NODE_ENV !== "production";
+
 const validateFirebaseIdToken = async (req, res, next) => {
   if (
     (!req.headers.authorization ||
@@ -49,7 +51,7 @@ admin.initializeApp({
 });
 
 app.use(cors({ origin: true }));
-app.use(validateFirebaseIdToken);
+app.use(!isDev ? validateFirebaseIdToken : (req, res, next) => next());
 
 app.get("/hello-world", (req, res) => {
   return res.status(200).send("Hello World!");
@@ -57,4 +59,4 @@ app.get("/hello-world", (req, res) => {
 
 app.use(require("./routes/users.routes"));
 
-exports.app = functions.https.onRequest(app);
+app.listen(3000, () => console.log("Server is running on port 3000"));
