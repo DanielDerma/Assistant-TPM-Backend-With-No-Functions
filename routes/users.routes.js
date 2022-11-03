@@ -34,8 +34,8 @@ router.delete("/users/:id", async (req, res) => {
 router.delete("/users", async (req, res) => {
   const { listId } = req.params;
 
-  const res = listId.map(async (id) => await auth.deleteUser(id));
-  res.json({ res });
+  const response = listId.map(async (id) => await auth.deleteUser(id));
+  res.json({ response });
 });
 
 module.exports = router;

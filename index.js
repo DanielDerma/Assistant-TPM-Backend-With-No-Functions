@@ -54,7 +54,6 @@ const validateFirebaseIdToken = async (req, res, next) => {
     return;
   } catch (error) {
     res.status(403).send("Unauthorized");
-    return;
   }
 };
 if (!admin.apps.length) {
