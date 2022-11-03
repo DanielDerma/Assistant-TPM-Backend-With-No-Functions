@@ -5,10 +5,9 @@ const cors = require("cors");
 
 const app = express();
 
-const serviceAccount = require("./admin-sdk.json");
+const serviceAccount = require("./service.json");
 
 const validateFirebaseIdToken = async (req, res, next) => {
-
   if (
     (!req.headers.authorization ||
       !req.headers.authorization.startsWith("Bearer ")) &&
@@ -26,7 +25,6 @@ const validateFirebaseIdToken = async (req, res, next) => {
     // Read the ID Token from the Authorization header.
     idToken = req.headers.authorization.split("Bearer ")[1];
   } else if (req.cookies) {
-    functions.logger.log("Found \"__session\" cookie");
     // Read the ID Token from cookie.
     idToken = req.cookies.__session;
   } else {
@@ -37,12 +35,10 @@ const validateFirebaseIdToken = async (req, res, next) => {
 
   try {
     const decodedIdToken = await admin.auth().verifyIdToken(idToken);
-    functions.logger.log("ID Token correctly decoded", decodedIdToken);
     req.user = decodedIdToken;
     next();
     return;
   } catch (error) {
-    functions.logger.error("Error while verifying Firebase ID token:", error);
     res.status(403).send("Unauthorized");
     return;
   }
@@ -52,7 +48,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-app.use(cors({origin: true}));
+app.use(cors({ origin: true }));
 app.use(validateFirebaseIdToken);
 
 app.get("/hello-world", (req, res) => {
