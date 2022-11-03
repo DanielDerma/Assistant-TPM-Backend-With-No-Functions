@@ -20,7 +20,6 @@ router.get("/users", async (req, res) => {
 });
 
 router.post("/user", async (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body;
   const user = await auth.createUser({ email, password });
   res.json({ id: user.uid, email });
@@ -30,6 +29,13 @@ router.delete("/users/:id", async (req, res) => {
   const { id } = req.params;
   await auth.deleteUser(id);
   res.json({ id });
+});
+
+router.delete("/users", async (req, res) => {
+  const { listId } = req.params;
+
+  const res = listId.map(async (id) => await auth.deleteUser(id));
+  res.json({ res });
 });
 
 module.exports = router;
