@@ -64,7 +64,9 @@ if (!admin.apps.length) {
 }
 
 app.use(cors({ origin: true }));
+app.use(express.json());
 app.use(!isDev ? validateFirebaseIdToken : (req, res, next) => next());
+// app.use(validateFirebaseIdToken);
 
 app.get("/hello-world", (req, res) => {
   return res.status(200).send("Hello World!");

@@ -1,10 +1,14 @@
-GET http://localhost:3000/hello-world
+###local
+POST http://localhost:3000/user
+content-type: application/json
+Authorization: Bearer 1234
 
+{
+    "email": "test2@gmail.com",
+    "password": "asdfQWEasdf09"
+}
 
 ###
-GET http://localhost:3000/users
-
-### in deploy:
 
 POST https://assistant-tpm-backend.onrender.com/users
 content-type: application/json
@@ -14,8 +18,3 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImRjMzdkNTkzNjVjNjIyOGI4Y2NkYW
     "email": "test@gmail.com",
     "password": "asdfQWEasdf09"
 }
-
-
-###
-GET https://assistant-tpm-backend.onrender.com/users
-
