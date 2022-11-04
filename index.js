@@ -19,7 +19,7 @@ const serviceAccount = {
   client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL || "",
 };
 
-const isDev = process.env.NODE_ENV !== "production";
+// const isDev = process.env.NODE_ENV !== "production";
 
 const validateFirebaseIdToken = async (req, res, next) => {
   if (
@@ -62,10 +62,10 @@ if (!admin.apps.length) {
   });
 }
 
-app.use(cors({ origin: true }));
+app.use(cors());
 app.use(express.json());
-app.use(!isDev ? validateFirebaseIdToken : (req, res, next) => next());
-// app.use(validateFirebaseIdToken);
+// app.use(!isDev ? validateFirebaseIdToken : (req, res, next) => next());
+app.use(validateFirebaseIdToken);
 
 app.get("/hello-world", (req, res) => {
   return res.status(200).send("Hello World2!");
