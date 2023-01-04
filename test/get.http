@@ -1,12 +1,9 @@
-GET http://localhost:3000/hello-world
+###
+GET http://localhost:8080/hello-world
 
 
 ###
-GET http://localhost:3000/users
-
-### in deploy:
-
-POST https://assistant-tpm-backend.onrender.com/users
+POST http://localhost:8080/users
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImRjMzdkNTkzNjVjNjIyOGI4Y2NkYWNhNTM2MGFjMjRkMDQxNWMxZWEiLCJ0eXAiOiJKV1QifQ
 
@@ -17,5 +14,5 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImRjMzdkNTkzNjVjNjIyOGI4Y2NkYW
 
 
 ###
-GET https://assistant-tpm-backend.onrender.com/users
+GET http://localhost:8080/users
 

@@ -1,3 +1,4 @@
-/service.json
+/sdk_assistant-tpm.json
+/sdk_tagbus.json
 /node_modules
 .env*

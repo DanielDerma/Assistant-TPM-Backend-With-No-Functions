@@ -1,16 +1,16 @@
 ###local
-POST http://localhost:3000/user
+POST http://localhost:8080/userAdmin
 content-type: application/json
 Authorization: Bearer 1234
 
 {
-    "email": "test2@gmail.com",
+    "email": "cesar@admin.com",
     "password": "asdfQWEasdf09"
 }
 
 ###
 
-POST https://assistant-tpm-backend.onrender.com/users
+POST http://localhost:8080/users
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImRjMzdkNTkzNjVjNjIyOGI4Y2NkYWNhNTM2MGFjMjRkMDQxNWMxZWEiLCJ0eXAiOiJKV1QifQ
 

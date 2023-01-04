@@ -1,0 +1,12 @@
+###local
+POST http://localhost:8080/userAdmin
+content-type: application/json
+Authorization: Bearer 1234
+
+{
+    "email": "cesar@admin.com",
+    "password": "asdfQWEasdf09"
+}
+
+###
+GET http://localhost:8080/tagBus_sendMessages

@@ -6,20 +6,22 @@ const cors = require("cors");
 
 const app = express();
 
-const serviceAccount = {
-  type: process.env.FIREBASE_TYPE || "",
-  project_id: process.env.FIREBASE_PROJECT_ID || "",
-  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID || "",
-  private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gm, "\n") || "",
-  client_email: process.env.FIREBASE_CLIENT_EMAIL || "",
-  client_id: process.env.FIREBASE_CLIENT_ID || "",
-  auth_uri: process.env.FIREBASE_AUTH_URI || "",
-  token_uri: process.env.FIREBASE_TOKEN_URI || "",
-  auth_provider_x509_ce: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL || "",
-  client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL || "",
-};
+const serviceAccount = require("./sdk_assistant-tpm.json");
 
-// const isDev = process.env.NODE_ENV !== "production";
+// const serviceAccount = {
+//   type: process.env.FIREBASE_TYPE || "",
+//   project_id: process.env.FIREBASE_PROJECT_ID || "",
+//   private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID || "",
+//   private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gm, "\n") || "",
+//   client_email: process.env.FIREBASE_CLIENT_EMAIL || "",
+//   client_id: process.env.FIREBASE_CLIENT_ID || "",
+//   auth_uri: process.env.FIREBASE_AUTH_URI || "",
+//   token_uri: process.env.FIREBASE_TOKEN_URI || "",
+//   auth_provider_x509_ce: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL || "",
+//   client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL || "",
+// };
+
+const isDev = process.env.NODE_ENV !== "production";
 
 const validateFirebaseIdToken = async (req, res, next) => {
   if (
@@ -64,15 +66,19 @@ if (!admin.apps.length) {
 
 app.use(cors());
 app.use(express.json());
-// app.use(!isDev ? validateFirebaseIdToken : (req, res, next) => next());
-app.use(validateFirebaseIdToken);
+app.use(!isDev ? validateFirebaseIdToken : (req, res, next) => next());
 
 app.get("/hello-world", (req, res) => {
   return res.status(200).send("Hello World2!");
 });
 
 app.use(require("./routes/users.routes"));
+// use the above line if isDev
 
-app.listen(process.env.PORT || 3000, () =>
-  console.log("Server is running on port 3000")
+app.use(
+  isDev ? require("./routes/firestore.routes") : (req, res, next) => next()
+);
+
+app.listen(process.env.PORT || 8080, () =>
+  console.log("Server is running on port 8080")
 );
